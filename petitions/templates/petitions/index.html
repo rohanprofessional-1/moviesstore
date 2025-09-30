@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3">{{ template_data.title }}</h1>
+    <a class="btn btn-primary" href="{% url 'petitions.create' %}">
+      <i class="fas fa-plus"></i> New Petition
+    </a>
+  </div>
+
+  {% if template_data.petitions %}
+    <ul class="list-group">
+      {% for petition in template_data.petitions %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <a href="{% url 'petitions.show' petition.id %}">
+            {{ petition.title }}
+          </a>
+          <span class="badge bg-success">{{ petition.yes_votes }} Yes</span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="alert alert-info mt-3">
+      No petitions yet. <a href="{% url 'petitions.create' %}">Be the first!</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

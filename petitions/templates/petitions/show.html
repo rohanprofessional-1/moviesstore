@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">{{ template_data.petition.title }}</h2>
+      <p class="card-text">{{ template_data.petition.description }}</p>
+
+      <p><strong>Yes votes:</strong> {{ template_data.petition.yes_votes }}</p>
+
+      {% if user.is_authenticated %}
+        <form method="post" action="{% url 'petitions.vote' template_data.petition.id %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-success">
+            <i class="fas fa-thumbs-up"></i> Vote Yes
+          </button>
+        </form>
+      {% else %}
+        <div class="alert alert-warning">
+          <a href="{% url 'accounts.login' %}?next={{ request.path }}">Log in</a> to vote.
+        </div>
+      {% endif %}
+
+      <a class="btn btn-link mt-3" href="{% url 'petitions.index' %}">&larr; Back to all petitions</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
